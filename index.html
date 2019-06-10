@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ameya's Store</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    <h1>Welcome to the Ameya's Store</h1>
+<div class="container">
+  <div>
+    <input class="searchStore" type="text" placeholder="Filter Store Items By Title"/>
+      <button id="AddToCart" class="floatRight">Add To Cart</button>
+  </div>
+    <br />
+  <div class="storeItems" ></div>
+    <div class="clear">
+        <table class="tabWidth" >
+            <tr>
+                <td><button id="Prev" >Prev</button></td>
+                <td><button id="Next" >Next</button></td>
+            </tr>
+        </table>
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>My Cart</h2>
+            </div>
+
+            <div class="modal-body">
+                <table align="center" class="tableWidth">
+                    <tr>
+                        <th scope="col">Item Name:</th>
+                        <th scope="col">Item ($) Price</th>
+                    </tr>
+                </table>
+                <table id="checkoutTbl" border="1" align="center" class="tableWidth" >
+                    
+                </table>
+                <table align="center" class="tableWidth" >
+                    <tr>
+                        <td><b>Total Cost: </b></td>
+                        <td id="total-cost">0.00</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <h3>Check out</h3>
+               <button id="Checkout" class="checkout">Check out</button>
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+<footer class="clear">
+    Copyright 2019
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
