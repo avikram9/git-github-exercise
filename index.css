@@ -48,7 +48,7 @@ table {
 }
 
 button {
-    width: 10%;
+    width: 20%;
     height: 50px;
     background-color: olive
 }
@@ -160,4 +160,20 @@ button:disabled {
 
 .tabWidth {
     width: 160%
+}
+
+.storeTable {
+    width: 100%
+}
+
+.tableDesc {
+    background-color: olive
+}
+
+.removeBtn {
+    width: 100%
+}
+
+.aWhite {
+    color:white
 }
