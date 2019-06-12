@@ -10,18 +10,16 @@
 <div class="container">
   <div>
     <input class="searchStore" type="text" placeholder="Filter Store Items By Title"/>
-      <button id="AddToCart" class="floatRight">Add To Cart</button>
+      <table class="tabWidth">
+          <tr>
+              <td><button id="Prev" >Prev</button></td>
+              <td><button id="Next" >Next</button></td>
+              <td><button id="AddToCart" >Add To Cart</button></td>
+          </tr>
+      </table>
   </div>
     <br />
   <div class="storeItems" ></div>
-    <div class="clear">
-        <table class="tabWidth" >
-            <tr>
-                <td><button id="Prev" >Prev</button></td>
-                <td><button id="Next" >Next</button></td>
-            </tr>
-        </table>
-    </div>
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
@@ -37,6 +35,7 @@
                     <tr>
                         <th scope="col">Item Name:</th>
                         <th scope="col">Item ($) Price</th>
+                        <th scope="col">Remove</th>
                     </tr>
                 </table>
                 <table id="checkoutTbl" border="1" align="center" class="tableWidth" >
@@ -45,7 +44,7 @@
                 <table align="center" class="tableWidth" >
                     <tr>
                         <td><b>Total Cost: </b></td>
-                        <td id="total-cost">0.00</td>
+                        <td colspan="2" id="total-cost">0.00</td>
                     </tr>
                 </table>
             </div>
@@ -59,6 +58,7 @@
     </div>
 </div>
 <footer class="clear">
+    <a href="mailto:ameya@gmail.com?Subject=Contact" target="_top" class="aWhite" >Send E-mail</a>
     Copyright 2019
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
