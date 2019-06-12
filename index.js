@@ -22,28 +22,32 @@ let page = 1;
 
 let template = `
     {{#each storeItems}}
-    <div class="storeItems floatLeft">
-       <table>
+    <div class="storeItems" >
+       <table class="storeTable" >
          <tr>
-             <td><span>{{this.title}}</span></td>
+             <td colspan="2" ><span>{{this.title}}</span></td>
          </tr>
          <tr>
-             <td><img src={{this.image}} alt="{{this.title}}" height="100" width="100"></td>
-         </tr>
-         <tr>
-             <td>Material: <span>{{this.material}}</span></td>
-         </tr>
-         <tr>
-             <td>Description: <span>{{this.description}}</span></td>
-         </tr>
-         <tr>
-             <td>Color: <span>{{this.color}}</span></td>
-         </tr>
-         <tr>
-             <td>Price: $<span>{{this.price}}</span></td>
-         </tr>
-         <tr>
-             <td>Buy: <input type="checkbox" name="Item" value="{{this.title}}" data-price="{{this.price}}" class="chkBox"></td>
+             <td><img src={{this.image}} alt="{{this.title}}" height="500" width=750"></td>
+             <td valign = "top" > 
+                 <table border="1" class="tableDesc" >
+                    <tr>
+                        <td>Material: <span>{{this.material}}</span></td>  
+                    </tr>
+                    <tr>
+                        <td>Description: <span>{{this.description}}</td>
+                    </tr>  
+                    <tr>
+                        <td>Color: <span>{{this.color}}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Price: $<span>{{this.price}}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Buy: <input type="checkbox" name="Item" value="{{this.title}}" data-price="{{this.price}}" class="chkBox"></td>
+                    </tr>
+                 </table>
+             </td>
          </tr>
       </table>  
     </div>
@@ -156,11 +160,15 @@ function btnNextHandler(event) {
     }
 }
 
+function remove(index) {
+    checkoutTbl.deleteRow(index);
+}
+
 function addToCartHandler(event) {
 
     modal.style.display = "block";
 
-    let i, j;
+    let i = 0, j = 0;
     let totalCost = 0.00;
 
     // Clear table
@@ -172,17 +180,18 @@ function addToCartHandler(event) {
     for (i = 0; i < allChkBoxes.length; i++) {
         if (allChkBoxes[i].checked) {
             
-
             // Create an empty <tr> element and add it to the 1st position of the table:
             let row = checkoutTbl.insertRow(-1);
 
             // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
             let cell1 = row.insertCell(0);
             let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
 
             // Add some text to the new cells:
             cell1.innerHTML = "<td>" + allChkBoxes[i].value + "</td>";
             cell2.innerHTML = "<td>$" + parseFloat(allChkBoxes[i].getAttribute("data-price")) + "</td >";
+            cell3.innerHTML = "<td><button type='button' class='removeBtn' onclick='remove(" + j + ")'>Remove</button></td>";
 
             // Calculate the total cost by adding the total cost to the checkbox price
             
@@ -192,6 +201,9 @@ function addToCartHandler(event) {
 
             addToCart.push(strItem);
 
+            // Keep track of the position of the added item to the cart
+            j++;
+
         }
     }
    
@@ -200,12 +212,17 @@ function addToCartHandler(event) {
 }
 
 function checkOutHandler(event) {
+    if (checkoutTbl.rows.length > 0) {
 
-    addToCart = [];
+        addToCart = [];
 
-    alert("The checkout was successful");
+        alert("The checkout was successful");
 
-    window.location = "index.html";
+        window.location = "index.html";
+    }
+    else {
+        alert("Your cart is empty");
+    }
 }
 
 
