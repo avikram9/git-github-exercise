@@ -177,3 +177,7 @@ button:disabled {
 .aWhite {
     color:white
 }
+
+.cursor {
+    cursor:pointer
+}
