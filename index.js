@@ -18,7 +18,11 @@ let storeItems = [];
 
 let addToCart = [];
 
+let addToImgCart = [];
+
 let page = 1;
+
+let indexPos = 0;
 
 let template = `
     {{#each storeItems}}
@@ -28,7 +32,7 @@ let template = `
              <td colspan="2" ><span>{{this.title}}</span></td>
          </tr>
          <tr>
-             <td><img src={{this.image}} alt="{{this.title}}" height="500" width=750"></td>
+             <td><img src={{this.image}} alt="{{this.title}}" height="100" width="100" onclick="imgAddToCart('{{this.title}}','{{this.price}}')" class="cursor" ></td>
              <td valign = "top" > 
                  <table border="1" class="tableDesc" >
                     <tr>
@@ -161,7 +165,16 @@ function btnNextHandler(event) {
 }
 
 function remove(index) {
-    checkoutTbl.deleteRow(index);
+
+    index = index % checkoutTbl.rows.length;
+
+        for (let j = 0; j < addToImgCart.length; j++) {
+            if (addToImgCart[j].title == checkoutTbl.rows[index].cells[0].innerText) {
+                addToImgCart.splice(j, 1);
+            }
+        }
+
+        checkoutTbl.deleteRow(index);
 }
 
 function addToCartHandler(event) {
@@ -177,9 +190,39 @@ function addToCartHandler(event) {
     // Clear the cart
     addToCart = [];
 
-    for (i = 0; i < allChkBoxes.length; i++) {
-        if (allChkBoxes[i].checked) {
-            
+    if (addToImgCart.length == 0) {
+        for (i = 0; i < allChkBoxes.length; i++) {
+            if (allChkBoxes[i].checked) {
+
+                // Create an empty <tr> element and add it to the 1st position of the table:
+                let row = checkoutTbl.insertRow(-1);
+
+                // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+
+                // Add some text to the new cells:
+                cell1.innerHTML = "<td>" + allChkBoxes[i].value + "</td>";
+                cell2.innerHTML = "<td>$" + parseFloat(allChkBoxes[i].getAttribute("data-price")) + "</td >";
+                cell3.innerHTML = "<td><button type='button' class='removeBtn' onclick='remove(" + j + ")'>Remove</button></td>";
+
+                // Calculate the total cost by adding the total cost to the checkbox price
+
+                totalCost = totalCost + parseFloat(allChkBoxes[i].getAttribute("data-price"));
+
+                let strItem = { title: allChkBoxes[i].value, price: allChkBoxes[i].getAttribute("data-price") };
+
+                addToCart.push(strItem);
+
+                // Store positon of index
+                j++;
+            }
+        }
+    }
+    else {
+        j = 0;
+        addToImgCart.forEach(function (element) {
             // Create an empty <tr> element and add it to the 1st position of the table:
             let row = checkoutTbl.insertRow(-1);
 
@@ -187,26 +230,21 @@ function addToCartHandler(event) {
             let cell1 = row.insertCell(0);
             let cell2 = row.insertCell(1);
             let cell3 = row.insertCell(2);
-
+           
             // Add some text to the new cells:
-            cell1.innerHTML = "<td>" + allChkBoxes[i].value + "</td>";
-            cell2.innerHTML = "<td>$" + parseFloat(allChkBoxes[i].getAttribute("data-price")) + "</td >";
+            cell1.innerHTML = "<td>" + element.title + "</td>";
+            cell2.innerHTML = "<td>$" + element.price + "</td >";
             cell3.innerHTML = "<td><button type='button' class='removeBtn' onclick='remove(" + j + ")'>Remove</button></td>";
 
             // Calculate the total cost by adding the total cost to the checkbox price
-            
-            totalCost = totalCost + parseFloat(allChkBoxes[i].getAttribute("data-price"));
 
-            let strItem = { title: allChkBoxes[i].value, price: allChkBoxes[i].getAttribute("data-price") };
+            totalCost = totalCost + parseFloat(element.price);
 
-            addToCart.push(strItem);
-
-            // Keep track of the position of the added item to the cart
+            // Store position of index
             j++;
-
-        }
+        });
     }
-   
+
     totalCostTD.innerText = "$" + totalCost;
 
 }
@@ -215,6 +253,8 @@ function checkOutHandler(event) {
     if (checkoutTbl.rows.length > 0) {
 
         addToCart = [];
+
+        addToImgCart = [];
 
         alert("The checkout was successful");
 
@@ -225,6 +265,22 @@ function checkOutHandler(event) {
     }
 }
 
+function imgAddToCart(value, price) {
+
+    let checkForExistingItem = [];
+
+    if (addToImgCart.length > 0) {
+        checkForExistingItem = addToImgCart.filter(function (storeItm) {
+            return storeItm.title.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+        });
+    }
+
+    if (checkForExistingItem.length == 0) {
+
+        let strItem = { title: value, price: price };
+        addToImgCart.push(strItem);
+    }
+}
 
 // Add an event listener to the searchElement
 searchStore.addEventListener('input', searchStoreHandler);
